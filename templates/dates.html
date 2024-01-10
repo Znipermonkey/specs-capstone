@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user.user_name }}'s Page{% endblock %}
+
+{% block body %}
+<h1>{{ user.user_name }}'s Page</h1>
+<ul>
+</ul>
+
+<h1>Create Date</h1>
+<form action="/create" method="POST">
+    <p>
+        Date <input type="date" name="date">
+    </p>
+    <p>
+        Time <input type="time" name="time">
+    </p>
+
+    <p>
+        <input type="submit" value="Save">
+    </p>
+</form>
+<h1>Saved Dates</h1>
+<ul>
+    {% for date in user.dates %}
+    {% if date.name is defined %}
+        <li>
+            <span class="dates_{{ date.id }}" >
+                {{ date.name }} {{ date.date.strftime("%B/%d/%Y %I:%M%p") }}
+                <Form action="/details" method="POST">
+                    <input hidden type="text" name="dtid" value="{{ date.id }}">
+                    <input type="submit" value="Details"></input>
+                </Form>
+            </span>
+        </li>
+    {% else %}
+    <li>
+        <span class="dates_{{ date.id }}" >
+            {{ date.date.strftime("%B/%d/%Y %I:%M%p") }}
+            <Form action="/details" method="POST">
+                <input hidden type="text" name="dtid" value="{{ date.id }}">
+                <input type="submit" value="Details"></input>
+            </Form>
+        </span>
+    </li>
+    {% endif %}
+    {% endfor %}
+    </ul>
+{% endblock %}

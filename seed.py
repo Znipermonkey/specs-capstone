@@ -1,14 +1,32 @@
-from os import system
+import os
 import random
 from random import randrange
 from datetime import timedelta, datetime
-from model import connect_to_db
+import model
+import server
 from server import app
+import crud
 
-system("dropdb ")
-system("createdb")
+os.system("dropdb dates")
+os.system("createdb dates")
 
-connect_to_db(app)
+model.connect_to_db(app)
+
+with  app.app_context():
+    model.db.create_all()
+
+    new_user = crud.create_user("a", "a")
+    model.db.session.add(new_user)
+    model.db.session.commit()
+
+    for n in range(10):
+        user_name = f"user{n}"
+        password = "test"
+
+        new_user = crud.create_user(user_name, password)
+        model.db.session.add(new_user)
+
+    model.db.session.commit()
 
 def random_date(start, end):
     delta = end - start

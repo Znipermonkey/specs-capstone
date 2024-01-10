@@ -1,19 +1,12 @@
 {% extends 'base.html' %}
-{% block title %}Movie Ratings Home{% endblock %}
+{% block title %}Calendar Home{% endblock %}
 
 {% block body %}
     <h1>Welcome!</h1>
-
-    <h2>Navigation</h2>
-    <ul>
-        <li><a href="/">Save new dates</a></li>
-        <li><a href="/">View all saved dates</a></li>
-    </ul>
-
     <h2>Create an Account</h2>
     <form action="/users" method="POST">
         <p>
-            Email <input type="text" name="email">
+            User Name <input type="text" name="user_name">
         </p>
 
         <p>
@@ -27,7 +20,7 @@
     <h2>Log In</h2>
     <form action="/login" method="POST">
         <p>
-            Email <input type="text" name="email">
+            User Name <input type="text" name="user_name">
         </p>
 
          <p>

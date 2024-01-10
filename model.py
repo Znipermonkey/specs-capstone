@@ -3,6 +3,7 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
+
 db = SQLAlchemy()
 
 class User(db.Model):
@@ -11,30 +12,48 @@ class User(db.Model):
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     user_name = db.Column(db.String(99), unique=True)
     password = db.Column(db.String(199))
+    
+
 
     def __repr__(self):
-        return f"<User user_id={self.user_id} user_name={self.user_name}>"
+        return f"<User user_id={self.id} user_name={self.user_name}>"
     
 class Date(db.Model):
     __tablename__ = "dates"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
     date = db.Column(db.DateTime)
+    user_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable = False)
+
+    user = db.relationship("User", backref="dates")
+
+    def __repr__(self):
+        return f"<Date id={self.id} date={self.date}>"
+    
+
+    
     
 class Date_Name(db.Model):
     __tablename__ = "date_name"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    date_id = db.Column(db.Integer, db.ForeignKey("date.id"))
-    name = db.Column(db.String(99))
+    name = db.Column(db.String)
+    date_id = db.Column(db.Integer, db.ForeignKey("dates.id"), nullable = False)
+
+    name = db.relationship("Date", backref="date_name")
+    def __repr__(self):
+        return f"<Name id={self.id}, name={self.name}"
 
 class Comment(db.Model):
-    __tablename__ = "date_name"
+    __tablename__ = "comment"
 
     id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    date_id = db.Column(db.Integer, db.ForeignKey("date.id"))
     comment = db.Column(db.String)
+    date_id = db.Column(db.Integer, db.ForeignKey("dates.id"), nullable=False)
+    
+    comments = db.relationship("Date", backref="comment")
+    def __repr__(self):
+        return f"<Comment id={self.id} comment={self.comment}>"
 
 def connect_to_db(app):
     app.config["SQLALCHEMY_DATABASE_URI"] = os.environ["POSTGRES_URI"]
