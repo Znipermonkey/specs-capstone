@@ -4,7 +4,7 @@
 {% if date.name is defined %}
 <h1>{{ date.name }}</h1>
 {% else %}
-<form action="/name" method="POST">
+<form action="/name/{{ date.id }}" method="POST">
     Add a Name<input type="text" name="create_name"> <input type="submit" value="Name">
 </form>
 {% endif %}
@@ -13,7 +13,7 @@
 </p>
 
 <h1>Comments</h1>
-<form action="/comment" method="POST">
+<form action="/comment/{{ date.id }}" method="POST">
 New Comment <input type="text" name="addc"> <input type="submit" value="Comment">
 </form>
 

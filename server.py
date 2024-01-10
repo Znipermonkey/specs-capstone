@@ -58,11 +58,11 @@ def all_users():
     users = crud.get_users()
     return render_template("all_users.html", users=users)
 
-@app.route("/details", methods=["POST"])
-def date_details():
+@app.route("/details/<date_id>", methods=["POST","GET"])
+def date_details(date_id):
     i = request.form.get("dtid")
-    date = crud.get_date_by_id(i)
-    session["date_id"] = date.id
+    date = crud.get_date_by_id(date_id)
+    print(type(date.id))
     print(i)
     print(date)
     return render_template("details.html", date=date)
@@ -83,29 +83,25 @@ def new_date():
 
     return redirect("/dates")
 
-@app.route("/comment", methods=["POST"])
-def new_comment():
+@app.route("/comment/<date_id>", methods=["POST"])
+def new_comment(date_id):
     comment = request.form.get("addc")
     print(comment)
-    date = session["date_id"]
-
-    new_comment = crud.add_comment(comment, date)
+    new_comment = crud.add_comment(comment, date_id)
     db.session.add(new_comment)
     db.session.commit()
 
-    return redirect("/details")
+    return redirect(f"/details/{date_id}")
 
-@app.route("/name", methods=["POST"])
-def create_name():
+@app.route("/name/<date_id>", methods=["POST"])
+def create_name(date_id):
     name = request.form.get("create_name")
     print(name)
-    date = session["date_id"]
-
-    n = crud.add_name(name, date)
+    n = crud.add_name(name, date_id)
     db.session.add(n)
     db.session.commit()
 
-    return redirect("/details")
+    return redirect(f"/details/{date_id}")
 
 if __name__ == "__main__":
     connect_to_db(app)
