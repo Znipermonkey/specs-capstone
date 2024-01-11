@@ -38,9 +38,9 @@ def add_comment(comment, date_id):
     return new_comment
 
 def add_name(name, date_id):
-    named = Date_Name(name=name, date_id=date_id)
-    print(named)
-    return named
+    j = Date_Name(date_id=date_id, name=name)
+    print(j)
+    return j
 
 def get_dates():
     return Date.query.all()

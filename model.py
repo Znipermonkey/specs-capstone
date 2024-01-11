@@ -40,9 +40,9 @@ class Date_Name(db.Model):
     name = db.Column(db.String)
     date_id = db.Column(db.Integer, db.ForeignKey("dates.id"), nullable = False)
 
-    name = db.relationship("Date", backref="date_name")
+    names = db.relationship("Date", backref="date_name")
     def __repr__(self):
-        return f"<Name id={self.id}, name={self.name}"
+        return f"<Name id={self.id}, name={self.name}>"
 
 class Comment(db.Model):
     __tablename__ = "comment"

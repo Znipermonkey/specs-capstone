@@ -11,13 +11,13 @@ app.jinja_env.undefined = StrictUndefined
 def homepage():
     return render_template("homepage.html")
 
-@app.route('/dates')
-def date():
+@app.route('/dates/<user_id>')
+def date(user_id):
 
     user_name = session["user_user_name"]
     user = crud.get_user_by_user_name(user_name)
     dates = crud.get_dates()
-    return render_template("dates.html", user=user)
+    return render_template(f"dates.html", user=user)
 
 @app.route("/login", methods = ["POST"])
 def login():
@@ -35,7 +35,7 @@ def login():
         session["user_id"] = user.id
         flash(f"Welcome back, {user.user_name}!")
 
-    return redirect("/dates")
+    return redirect(f"/dates/{user.id}")
 
 @app.route("/users", methods=["POST"])
 def register_user():
@@ -62,9 +62,6 @@ def all_users():
 def date_details(date_id):
     i = request.form.get("dtid")
     date = crud.get_date_by_id(date_id)
-    print(type(date.id))
-    print(i)
-    print(date)
     return render_template("details.html", date=date)
 
 
@@ -81,7 +78,7 @@ def new_date():
     db.session.add(new_date)
     db.session.commit()
 
-    return redirect("/dates")
+    return redirect(f"/dates/{user_id}")
 
 @app.route("/comment/<date_id>", methods=["POST"])
 def new_comment(date_id):
@@ -96,9 +93,9 @@ def new_comment(date_id):
 @app.route("/name/<date_id>", methods=["POST"])
 def create_name(date_id):
     name = request.form.get("create_name")
-    print(name)
     n = crud.add_name(name, date_id)
     db.session.add(n)
+    print(n)
     db.session.commit()
 
     return redirect(f"/details/{date_id}")

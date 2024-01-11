@@ -28,7 +28,6 @@
             <span class="dates_{{ date.id }}" >
                 {{ date.name }} {{ date.date.strftime("%B/%d/%Y %I:%M%p") }}
                 <Form action="/details/{{ date.id }}" method="GET">
-                    <input hidden type="text" name="dtid" value="{{ date.id }}">
                     <input type="submit" value="Details"></input>
                 </Form>
             </span>
@@ -38,7 +37,6 @@
         <span class="dates_{{ date.id }}" >
             {{ date.date.strftime("%B/%d/%Y %I:%M%p") }}
             <Form action="/details/{{ date.id }}" method="GET">
-                <input hidden type="text" name="dtid" value="{{ date.id }}">
                 <input type="submit" value="Details"></input>
             </Form>
         </span>

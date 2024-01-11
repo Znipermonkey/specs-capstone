@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
 
 {% block body %}
-{% if date.name is defined %}
-<h1>{{ date.name }}</h1>
-{% else %}
 <form action="/name/{{ date.id }}" method="POST">
     Add a Name<input type="text" name="create_name"> <input type="submit" value="Name">
 </form>
-{% endif %}
+{% for name in date.date_name %}
+<h1>{{ name.name }}</h1>
+{% endfor %}
 <p>
     {{ date.date.strftime("%B/%d/%Y %I:%M%p") }}
 </p>
